@@ -1,0 +1,752 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GCM API",
+    "version": "v1.0",
+    "description": "This is a private REST API, defined using OpenAPI 3.1.0 in YAML format, and located in the Project Private Permission QA Catalog. It is intended for restricted access and use within the specified project environment.\n"
+  },
+  "servers": [
+    {
+      "url": "https://api.private-project-qa.com/v1",
+      "description": "Production environment"
+    },
+    {
+      "url": "https://staging.api.private-project-qa.com/v1",
+      "description": "Staging environment"
+    }
+  ],
+  "jsonSchemaDialect": "https://spec.openapis.org/oas/3.1/dialect/base",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Operations related to user management."
+    },
+    {
+      "name": "Groups",
+      "description": "Operations related to group management."
+    },
+    {
+      "name": "Permissions",
+      "description": "Operations related to permission management."
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List all users",
+        "operationId": "listUsers",
+        "responses": {
+          "200": {
+            "description": "A list of users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a new user",
+        "operationId": "createUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user by ID",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user by ID",
+        "operationId": "updateUserById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete user by ID",
+        "operationId": "deleteUserById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deleted successfully."
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/groups": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "List all groups",
+        "operationId": "listGroups",
+        "responses": {
+          "200": {
+            "description": "A list of groups.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Group"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Create a new group",
+        "operationId": "createGroup",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Group created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Group"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/groups/{groupId}": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Get group by ID",
+        "operationId": "getGroupById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Group details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Group"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Update group by ID",
+        "operationId": "updateGroupById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Group updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Group"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Delete group by ID",
+        "operationId": "deleteGroupById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Group deleted successfully."
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/permissions": {
+      "get": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "List all permissions",
+        "operationId": "listPermissions",
+        "responses": {
+          "200": {
+            "description": "A list of permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Permission"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Create a new permission",
+        "operationId": "createPermission",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermissionCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Permission created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/permissions/{permissionId}": {
+      "get": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Get permission by ID",
+        "operationId": "getPermissionById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PermissionId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Update permission by ID",
+        "operationId": "updatePermissionById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PermissionId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermissionUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Permission updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Delete permission by ID",
+        "operationId": "deletePermissionById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PermissionId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Permission deleted successfully."
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Group"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "email"
+        ]
+      },
+      "UserCreateRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "email",
+          "password"
+        ]
+      },
+      "UserUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": []
+      },
+      "Group": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Permission"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "GroupCreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "GroupUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": []
+      },
+      "Permission": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "PermissionCreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "PermissionUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": []
+      }
+    },
+    "parameters": {
+      "UserId": {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "The ID of the user."
+      },
+      "GroupId": {
+        "name": "groupId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "The ID of the group."
+      },
+      "PermissionId": {
+        "name": "permissionId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "The ID of the permission."
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal server error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "externalDocs": {
+    "description": "Find more info in the project documentation.",
+    "url": "https://docs.private-project-qa.com/"
+  }
+}
