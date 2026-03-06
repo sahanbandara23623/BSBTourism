@@ -3,7 +3,7 @@
   "info": {
     "title": "GCM API",
     "version": "v1.0",
-    "description": "This is a private REST API, defined using OpenAPI 3.1.0 in YAML format, and located in the Project Private Permission QA Catalog. It is intended for restricted access and use within the specified project environment.\n"
+    "description": "This is a private REST API, Commit CHanges  using OpenAPI 3.1.0 in YAML format, and located in the Project Private Permission QA Catalog. It is intended for restricted access and use within the specified project environment.\n"
   },
   "servers": [
     {
